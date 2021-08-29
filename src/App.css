@@ -14,6 +14,7 @@
   grid-area:graph;
 }
 
+
 .settings {
   grid-area:settings;
   background-color: rgb(241, 241, 241);
