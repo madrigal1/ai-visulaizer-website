@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import getGraphData from "../main";
-import { IData } from "../searches/core";
+import { IData, SearchType } from "../searches/core";
 import { ForceGraph3D } from 'react-force-graph';
 import SpriteText from "three-spritetext";
 
@@ -13,11 +13,14 @@ const main_data = {
     ],
 };
 
-const ForceGraph: React.FC = () => {
+interface ForceGraphProps {
+    search_type: SearchType;
+}
+const ForceGraph: React.FC<ForceGraphProps> = ({ search_type }) => {
     // the graph configuration, just override the ones you need
     const [graphData, setGraphData] = useState<IData>({ nodes: [], links: [] })
     useEffect(() => {
-        getGraphData()
+        getGraphData(search_type)
             .then((data: any) => {
                 if (data) {
                     setGraphData({
@@ -27,6 +30,19 @@ const ForceGraph: React.FC = () => {
                 }
             })
     }, [])
+    const fgRef = useRef<any>();
+
+    const handleClick = useCallback(node => {
+        // Aim at node from outside it
+        const distance = 40;
+        const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+
+        fgRef.current.cameraPosition(
+            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+            node, // lookAt ({ x, y, z })
+            3000  // ms transition duration
+        );
+    }, [fgRef]);
     const myConfig = {
         nodeHighlightBehavior: true,
         height: 1000,
@@ -60,6 +76,12 @@ const ForceGraph: React.FC = () => {
                 sprite.textHeight = 8;
                 return sprite;
             }}
+            linkDirectionalArrowLength={3.5}
+            linkDirectionalArrowRelPos={1}
+            linkCurvature={0.25}
+            linkWidth={2}
+            ref={fgRef}
+            onNodeClick={handleClick}
         />);
 }
 
