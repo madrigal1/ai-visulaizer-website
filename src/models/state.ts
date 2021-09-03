@@ -9,7 +9,7 @@ export default class State {
     private cannibalRight: number;
     private missionaryRight: number;
     private boat: Position;
-
+    private depth: number;
     private parentState: State | null;
 
     constructor(cannibalLeft: number, missionaryLeft: number, boat: Position,
@@ -20,12 +20,23 @@ export default class State {
         this.cannibalRight = cannibalRight;
         this.missionaryRight = missionaryRight;
         this.parentState = null;
+        this.depth = 0;
     }
 
     public isGoal(): boolean {
         return this.cannibalLeft == 0 && this.missionaryLeft == 0;
     }
 
+    public getDepth(): number {
+        return this.depth;
+    }
+    public setDepth(depth: number): void {
+        this.depth = depth;
+    }
+    public numberOfPplOnLeft(): number {
+        // let num = this.boat == Position.RIGHT?1:0;
+        return this.missionaryLeft + this.cannibalLeft;
+    }
     public isValid(): boolean {
         if (this.missionaryLeft >= 0 && this.missionaryRight >= 0 && this.cannibalLeft >= 0 && this.cannibalRight >= 0
             && (this.missionaryLeft == 0 || this.missionaryLeft >= this.cannibalLeft)
@@ -64,10 +75,17 @@ export default class State {
     }
 
     private testAndAdd(successors: Array<State>, newState: State) {
-        if (newState.isValid()) {
+        if (!newState.isValid())
+            return;
+        if (!newState.parentState || (newState.parentState && !newState.parentState.equals(newState))) {
             newState.setParentState(this);
+            newState.setDepth(this.depth + 1);
             successors.push(newState);
         }
+    }
+
+    public getFx(): number {
+        return this.numberOfPplOnLeft() + this.depth;
     }
 
     public getCannibalLeft(): number {
@@ -105,7 +123,6 @@ export default class State {
     public goToLeft() {
         this.boat = Position.LEFT;
     }
-
     public goToRight() {
         this.boat = Position.RIGHT;
     }

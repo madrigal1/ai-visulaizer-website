@@ -17,6 +17,11 @@ export default class Stack<T> implements IStack<T> {
         this.storage.push(item);
     }
 
+    has(item: T): boolean {
+        let index = this.storage.findIndex((ele) => ele === item);
+        return index != -1;
+    }
+
     pop(): T | undefined {
         return this.storage.pop();
     }

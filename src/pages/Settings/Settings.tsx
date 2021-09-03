@@ -34,23 +34,15 @@ const Settings: React.FC<SettingsProps> = ({ setScreen, searchType, setSearchTyp
 
                             <div className="check"></div>
                         </li>
-
-                        {/* <li>
+                        <li>
                             <input type="radio" id="s-option" name="selector" value={SearchType.DEPTH_FIRST_SEARCH} onChange={handleChange} />
                             <label htmlFor="s-option">Depth First Search</label>
 
                             <div className="check"><div className="inside"></div></div>
-                        </li> */}
-
+                        </li>
                         <li>
                             <input type="radio" id="t-option" name="selector" value={SearchType.DEPTH_LIMITED_SEARCH} onChange={handleChange} />
                             <label htmlFor="t-option">Depth Limited Search</label>
-
-                            <div className="check"><div className="inside"></div></div>
-                        </li>
-                        <li>
-                            <input type="radio" id="a-option" name="selector" value={SearchType.ITERATIVE_DEEPENING} onChange={handleChange} />
-                            <label htmlFor="a-option">Iterative Deepening Search</label>
 
                             <div className="check"><div className="inside"></div></div>
                         </li>

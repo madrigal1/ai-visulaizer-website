@@ -3,7 +3,7 @@ import Stack from './Stack'
 const DepthFirstSearch = (initalState: State) => {
 
     //LIFO queue
-    const fringe = new Stack<State>();
+    let fringe = new Stack<State>();
 
 
     fringe.push(initalState);
@@ -17,6 +17,8 @@ const DepthFirstSearch = (initalState: State) => {
 
         let successors = nodeToExpand.generateSuccessors();
         for (let child of successors) {
+            if (fringe.has(child))
+                continue;
             fringe.push(child);
         }
     }

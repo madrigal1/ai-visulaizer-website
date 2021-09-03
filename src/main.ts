@@ -1,7 +1,7 @@
-import nodeCluster from "node:cluster";
 import State, { Position } from "./models/state";
+import aStar from "./searches/A*";
 import BreadthFirstSearch from "./searches/BreadthFirstSearch";
-import { IData, SearchType } from "./searches/core";
+import { checkCycle, IData, SearchType } from "./searches/core";
 import DepthFirstSearch from "./searches/DepthFirstSearch";
 import DepthLimitedSearch from "./searches/DepthLimitedSearch";
 // let data: IData = {
@@ -48,10 +48,10 @@ const getSolution = (solution: State): IData => {
             path.push(state);
             state = state.getParentState() as State;
         }
-
+        console.log(path);
         let depth: number = path.length - 1;
         res.nodes.push({ id: path[depth].toString() });
-        for (let i = depth - 1; i >= 0; i--) {
+        for (let i = depth - 1; i >= 1; i--) {
             let curr = path[i];
             let parent = path[i + 1];
             res.nodes.push({ id: curr.toString() });
@@ -77,6 +77,9 @@ const getGraphData = async (search_type: SearchType): Promise<IData> => {
             break;
         case SearchType.DEPTH_FIRST_SEARCH:
             goalState = await DepthFirstSearch(initialState);
+            break;
+        case SearchType.ASTAR:
+            goalState = await aStar(initialState);
             break;
         default:
             goalState = await BreadthFirstSearch(initialState);
