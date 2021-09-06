@@ -7,6 +7,7 @@ const heuresticFunction: Comparator<State> = (a: State, b: State) => {
 }
 const aStar = async (initialState: State) => {
     if (!initialState) return null;
+    console.log("aStar used");
     var searchNodes = new PriorityQueue<State>({ comparator: heuresticFunction });
     searchNodes.queue(initialState);
     while (!searchNodes.peek().isGoal()) {

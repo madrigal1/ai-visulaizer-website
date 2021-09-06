@@ -7,14 +7,13 @@ const DepthFirstSearch = (initalState: State) => {
 
 
     fringe.push(initalState);
-
     while (!fringe.isEmpty()) {
         let nodeToExpand = fringe.pop() as State;
-
+        if (fringe.has(nodeToExpand))
+            continue;
         if (nodeToExpand.isGoal()) {
             return nodeToExpand;
         }
-
         let successors = nodeToExpand.generateSuccessors();
         for (let child of successors) {
             if (fringe.has(child))

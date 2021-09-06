@@ -35,14 +35,26 @@ const Settings: React.FC<SettingsProps> = ({ setScreen, searchType, setSearchTyp
                             <div className="check"></div>
                         </li>
                         <li>
-                            <input type="radio" id="s-option" name="selector" value={SearchType.DEPTH_FIRST_SEARCH} onChange={handleChange} />
-                            <label htmlFor="s-option">Depth First Search</label>
+                            <input type="radio" id="k-option" name="selector" value={SearchType.ASTAR} onChange={handleChange} />
+                            <label htmlFor="k-option">A* Search</label>
 
                             <div className="check"><div className="inside"></div></div>
                         </li>
                         <li>
-                            <input type="radio" id="t-option" name="selector" value={SearchType.DEPTH_LIMITED_SEARCH} onChange={handleChange} />
-                            <label htmlFor="t-option">Depth Limited Search</label>
+                            <input type="radio" id="t-option" name="selector" value={SearchType.ITERATIVE_DEEPENING} onChange={handleChange} />
+                            <label htmlFor="t-option">Iterative Deepening Search</label>
+
+                            <div className="check"><div className="inside"></div></div>
+                        </li>
+                        <li>
+                            <input type="radio" id="w-option" name="selector" value={SearchType.UNIFORM_COST} onChange={handleChange} />
+                            <label htmlFor="w-option">Uniform Cost Search</label>
+
+                            <div className="check"><div className="inside"></div></div>
+                        </li>
+                        <li>
+                            <input type="radio" id="a-option" name="selector" value={SearchType.HILL_CLIMBING} onChange={handleChange} />
+                            <label htmlFor="a-option">Hill Climbing</label>
 
                             <div className="check"><div className="inside"></div></div>
                         </li>

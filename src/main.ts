@@ -4,6 +4,9 @@ import BreadthFirstSearch from "./searches/BreadthFirstSearch";
 import { checkCycle, IData, SearchType } from "./searches/core";
 import DepthFirstSearch from "./searches/DepthFirstSearch";
 import DepthLimitedSearch from "./searches/DepthLimitedSearch";
+import { HillClimbing } from "./searches/HillClimbing";
+import IterativeDeepening from "./searches/IterativeDeepening";
+import UniformCostSearch from "./searches/UniformCostSearch";
 // let data: IData = {
 //     nodes: [],
 //     links: [],
@@ -45,13 +48,14 @@ const getSolution = (solution: State): IData => {
         let path: Array<State> = [];
         let state: State = solution;
         while (null != state) {
-            path.push(state);
+            if (path.findIndex((ele) => ele.equals(state)) === -1)
+                path.push(state);
             state = state.getParentState() as State;
         }
-        console.log(path);
+        console.log("PathArr: ", path);
         let depth: number = path.length - 1;
         res.nodes.push({ id: path[depth].toString() });
-        for (let i = depth - 1; i >= 1; i--) {
+        for (let i = depth - 1; i >= 0; i--) {
             let curr = path[i];
             let parent = path[i + 1];
             res.nodes.push({ id: curr.toString() });
@@ -72,8 +76,8 @@ const getGraphData = async (search_type: SearchType): Promise<IData> => {
         case SearchType.BREADTH_FIRST_SEARCH:
             goalState = await BreadthFirstSearch(initialState);
             break;
-        case SearchType.DEPTH_LIMITED_SEARCH:
-            goalState = await DepthLimitedSearch(initialState);
+        case SearchType.ITERATIVE_DEEPENING:
+            goalState = await IterativeDeepening(initialState);
             break;
         case SearchType.DEPTH_FIRST_SEARCH:
             goalState = await DepthFirstSearch(initialState);
@@ -81,8 +85,15 @@ const getGraphData = async (search_type: SearchType): Promise<IData> => {
         case SearchType.ASTAR:
             goalState = await aStar(initialState);
             break;
+        case SearchType.HILL_CLIMBING:
+            goalState = await HillClimbing(initialState);
+            break;
+        case SearchType.UNIFORM_COST:
+            goalState = await UniformCostSearch(initialState);
+            break;
         default:
             goalState = await BreadthFirstSearch(initialState);
+            break;
     }
     printSolution(goalState as State);
     // return res;

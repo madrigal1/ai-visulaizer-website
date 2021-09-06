@@ -12,7 +12,8 @@ export enum SearchType {
     ITERATIVE_DEEPENING = "iterative_deepening",
     UNIFORM_COST = "uniform_cost",
     BIDIRECTIONAL = "bidirectional",
-    ASTAR = "astar"
+    ASTAR = "astar",
+    HILL_CLIMBING = "hill_climbing"
 }
 
 export const checkCycle = (state: State): boolean => {

@@ -1,30 +1,25 @@
 import State from "../models/state";
-import { checkCycle } from "./core";
+import Stack from "./Stack";
 
 
 const DepthLimitedSearch = async (initialState: State): Promise<State | null> => {
-    let limit = 20;
-    return recursiveDLS(initialState, limit);
-}
-let recursiveDLS = (state: State, limit: number): State | null => {
-    if (state.isGoal()) {
-        return state;
-    } else if (limit <= 0) {
-        return null;
-    } else {
-        let successors: Array<State> = state.generateSuccessors();
-        for (let child of successors) {
-            if (checkCycle(child)) {
-                console.log(child.toString());
-                let result: State = recursiveDLS(child, limit - 1) as State;
-                if (null != result) {
-                    return result;
-                }
+    const limit = 100;
+    let frontier = new Stack<State>();
+    frontier.push(initialState);
+    while (!frontier.isEmpty()) {
+        let parent = frontier.pop() as State;
+        if (parent.getDepth() > limit) {
+            return null;
+        } else {
+            for (let child of parent.generateSuccessors()) {
+                if (child.isGoal())
+                    return child;
+                if (!frontier.has(child))
+                    frontier.push(child);
             }
         }
-
-        return null;
     }
+    return null;
 }
 
 export default DepthLimitedSearch;
