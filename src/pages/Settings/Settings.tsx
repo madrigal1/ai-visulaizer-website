@@ -24,7 +24,7 @@ const Settings: React.FC<SettingsProps> = ({ setScreen, searchType, setSearchTyp
             <section className="controlPanel">
                 <header>
                     <h1>AI Search Visualizer</h1>
-                    <p>Choose your search strategy</p>
+                    <p>Problem:  Missionaries and cannibals<br />Choose your search strategy</p>
                 </header>
                 <main>
                     <ul>
