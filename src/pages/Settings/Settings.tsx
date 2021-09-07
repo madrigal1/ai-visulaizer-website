@@ -47,12 +47,6 @@ const Settings: React.FC<SettingsProps> = ({ setScreen, searchType, setSearchTyp
                             <div className="check"><div className="inside"></div></div>
                         </li>
                         <li>
-                            <input type="radio" id="w-option" name="selector" value={SearchType.UNIFORM_COST} onChange={handleChange} />
-                            <label htmlFor="w-option">Uniform Cost Search</label>
-
-                            <div className="check"><div className="inside"></div></div>
-                        </li>
-                        <li>
                             <input type="radio" id="a-option" name="selector" value={SearchType.HILL_CLIMBING} onChange={handleChange} />
                             <label htmlFor="a-option">Hill Climbing</label>
 

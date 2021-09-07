@@ -4,7 +4,7 @@ import BreadthFirstSearch from "./searches/BreadthFirstSearch";
 import { checkCycle, IData, SearchType } from "./searches/core";
 import DepthFirstSearch from "./searches/DepthFirstSearch";
 import DepthLimitedSearch from "./searches/DepthLimitedSearch";
-import { HillClimbing } from "./searches/HillClimbing";
+import HillClimbing from "./searches/HillClimbing";
 import IterativeDeepening from "./searches/IterativeDeepening";
 import UniformCostSearch from "./searches/UniformCostSearch";
 // let data: IData = {

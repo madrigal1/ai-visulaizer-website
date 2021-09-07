@@ -7,22 +7,22 @@ const pathCostFunc: Comparator<State> = (a: State, b: State) => {
     return (a.getDepth() - b.getDepth());
 }
 const UniformCostSearch = (initialState: State) => {
+    if (initialState.isGoal())
+        return initialState;
     let frontier = new PriorityQueue({ comparator: pathCostFunc });
     frontier.queue(initialState);
     let reached: Record<string, number> = {};
     let solution: State | null = null;
     while (frontier.length > 0) {
-        if (solution) {
-            if (frontier.peek().getDepth() >= solution.getDepth()) {
-                return;
-            }
-        }
+        // if (solution && frontier.peek().getDepth() > solution.getDepth()) {
+        //     break;
+        // }
         let parent = frontier.dequeue();
         for (let child of parent.generateSuccessors()) {
-            if (!reached[child.toString()] || child.getDepth() < reached[child.toString()]) {
+            if (!reached[child.toString()] || child.getDepth() <= reached[child.toString()]) {
                 reached[child.toString()] = child.getDepth();
                 frontier.queue(child);
-                if (!solution || (child.isGoal() && child.getDepth() < solution.getDepth()))
+                if (!solution || (child.isGoal() && child.getDepth() <= solution.getDepth()))
                     solution = child;
             }
         }

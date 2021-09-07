@@ -1,20 +1,22 @@
-import { Comparator } from "ts-priority-queue/src/PriorityQueue";
 import State from "../models/state";
 import PriorityQueue from 'ts-priority-queue'
-const maxNode: Comparator<State> = (a: State, b: State) => {
-    return (b.getFx() - a.getFx());
+import { Comparator } from "ts-priority-queue/src/PriorityQueue";
+
+const heuresticFunction: Comparator<State> = (a: State, b: State) => {
+    return (a.numberOfPplOnLeft() - b.numberOfPplOnLeft());
 }
-export const HillClimbing = (intialState: State) => {
-    let current = intialState;
-    console.log("hil climbing used");
-    let limit = 1000;
-    while (true) {
-        let neighbors = new PriorityQueue({ comparator: maxNode, initialValues: current.generateSuccessors() })
-        let maxNeigh = neighbors.dequeue();
-        console.log(maxNeigh);
-        if (maxNeigh.getFx() <= current.getFx())
-            return current;
-        current = maxNeigh;
-        if (limit-- < 0) return;
+const HillClimbing = async (initialState: State) => {
+    if (!initialState) return null;
+    console.log("aStar used");
+    var searchNodes = new PriorityQueue<State>({ comparator: heuresticFunction });
+    searchNodes.queue(initialState);
+    while (!searchNodes.peek().isGoal()) {
+        let searchNode = searchNodes.dequeue();
+        for (let neigh of searchNode.generateSuccessors()) {
+            searchNodes.queue(neigh);
+        }
     }
+    return searchNodes.peek();
 }
+
+export default HillClimbing;
